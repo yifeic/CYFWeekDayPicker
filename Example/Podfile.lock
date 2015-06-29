@@ -1,0 +1,20 @@
+PODS:
+  - CYFWeekDayPicker (0.1.0)
+  - Expecta (1.0.0)
+  - Specta (1.0.2)
+
+DEPENDENCIES:
+  - CYFWeekDayPicker (from `../`)
+  - Expecta
+  - Specta
+
+EXTERNAL SOURCES:
+  CYFWeekDayPicker:
+    :path: ../
+
+SPEC CHECKSUMS:
+  CYFWeekDayPicker: fa490beb35a5dd97fc45fc1be8c27368a6339400
+  Expecta: 32604574add2c46a36f8d2f716b6c5736eb75024
+  Specta: 9cec98310dca411f7c7ffd6943552b501622abfe
+
+COCOAPODS: 0.37.2
