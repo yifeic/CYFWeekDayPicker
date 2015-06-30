@@ -12,7 +12,6 @@
 
 @property (nonatomic, strong) NSDate *minimumDate;
 @property (nonatomic, strong) NSDate *maximumDate;
-@property (nonatomic) CGSize itemSize;
 @property (nonatomic) CGFloat circleDiameter;
 @property (nonatomic, strong) UIColor *todayBackgroundColor;
 @property (nonatomic, strong) UIColor *todayTextColor;

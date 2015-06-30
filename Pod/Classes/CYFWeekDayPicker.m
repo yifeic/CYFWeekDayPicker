@@ -31,7 +31,6 @@
         _calendar = [NSCalendar currentCalendar];
         _minimumDate = [NSDate date];
         _maximumDate = self.minimumDate;
-        _itemSize = CGSizeMake(50, 50);
         _todayTextColor = [UIColor whiteColor];
         _dayTextColor = [UIColor blackColor];
         _todayBackgroundColor = [UIColor redColor];
@@ -108,7 +107,8 @@
 #pragma mark - UICollectionViewDelegateFlowLayout
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
-    return self.itemSize;
+    CGFloat size = collectionView.bounds.size.width/7.0;
+    return CGSizeMake(size, size);
 }
 
 @end

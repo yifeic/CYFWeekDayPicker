@@ -24,8 +24,6 @@
     NSDate *today = [NSDate date];
     self.picker.minimumDate = today;
     self.picker.maximumDate = [today dateByAddingTimeInterval:60*60*24*8];
-    CGFloat screenWidth = [UIScreen mainScreen].bounds.size.width;
-    self.picker.itemSize = CGSizeMake(screenWidth/7, screenWidth/7);
     self.picker.circleDiameter = 30;
     
     UIView *pickerView = self.picker.view;
