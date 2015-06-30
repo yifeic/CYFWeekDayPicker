@@ -13,7 +13,7 @@ EXTERNAL SOURCES:
     :path: ../
 
 SPEC CHECKSUMS:
-  CYFWeekDayPicker: fa490beb35a5dd97fc45fc1be8c27368a6339400
+  CYFWeekDayPicker: 2c5d8b7ba1a1a8e043b2b40d28077b08d09d6a7c
   Expecta: 32604574add2c46a36f8d2f716b6c5736eb75024
   Specta: 9cec98310dca411f7c7ffd6943552b501622abfe
 

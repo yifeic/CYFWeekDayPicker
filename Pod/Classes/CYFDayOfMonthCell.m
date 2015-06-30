@@ -8,7 +8,12 @@
 
 #import "CYFDayOfMonthCell.h"
 
-@interface CYFDayOfMonthCell ()
+@interface CYFDayOfMonthCell () {
+    CGFloat _circleDiameter;
+}
+
+@property (nonatomic) NSLayoutConstraint *circleWidthConstraint;
+@property (nonatomic) NSLayoutConstraint *circleHeightConstraint;
 
 @end
 
@@ -18,12 +23,19 @@
 {
     self = [super initWithFrame:frame];
     if (self) {
+        _circleDiameter = 50;
         UIView *circleBackground = [[UIView alloc] initWithFrame:CGRectZero];
         circleBackground.translatesAutoresizingMaskIntoConstraints = NO;
         [self addSubview:circleBackground];
+        circleBackground.layer.cornerRadius = self.circleDiameter / 2;
+        _circleWidthConstraint = [NSLayoutConstraint constraintWithItem:circleBackground attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:self.circleDiameter];
+        _circleHeightConstraint = [NSLayoutConstraint constraintWithItem:circleBackground attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:self.circleDiameter];
+        
         [self addConstraints:@[
-            [NSLayoutConstraint constraintWithItem:circleBackground attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeWidth multiplier:1.0 constant:0],
-            [NSLayoutConstraint constraintWithItem:circleBackground attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeHeight multiplier:1.0 constant:0]
+            self.circleWidthConstraint,
+            self.circleHeightConstraint,
+            [NSLayoutConstraint constraintWithItem:circleBackground attribute:NSLayoutAttributeCenterX relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeCenterX multiplier:1.0 constant:0],
+            [NSLayoutConstraint constraintWithItem:circleBackground attribute:NSLayoutAttributeCenterY relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeCenterY multiplier:1.0 constant:0]
         ]];
         self.circleBackground = circleBackground;
         
@@ -39,10 +51,15 @@
     return self;
 }
 
-- (void)layoutSubviews {
-    [super layoutSubviews];
-    
-    self.circleBackground.layer.cornerRadius = self.frame.size.width/2.0;
+- (void)setCircleDiameter:(CGFloat)circleDiameter {
+    _circleDiameter = circleDiameter;
+    self.circleHeightConstraint.constant = circleDiameter;
+    self.circleWidthConstraint.constant = circleDiameter;
+    self.circleBackground.layer.cornerRadius = circleDiameter / 2;
+}
+
+- (CGFloat)circleDiameter {
+    return _circleDiameter;
 }
 
 @end

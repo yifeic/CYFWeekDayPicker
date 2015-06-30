@@ -13,4 +13,6 @@
 @property (nonatomic, weak) UILabel *dayOfMonthLabel;
 @property (nonatomic, weak) UIView *circleBackground;
 
+@property (nonatomic) CGFloat circleDiameter;
+
 @end
