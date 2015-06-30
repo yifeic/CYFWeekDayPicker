@@ -16,9 +16,11 @@
 
 @property (nonatomic, strong, readonly) NSCalendar *calendar;
 @property (nonatomic) NSInteger weeks;
-@property (nonatomic) NSInteger minDateWeekday;
-@property (nonatomic) NSInteger maxDateWeekday;
+@property (nonatomic) NSInteger minDateIndex;
+@property (nonatomic) NSInteger maxDateIndex;
+@property (nonatomic) NSInteger todayIndex;
 @property (nonatomic) NSInteger daysInBetween;
+@property (nonatomic, strong) NSIndexPath *selectedIndexPath;
 
 @end
 
@@ -31,10 +33,13 @@
         _calendar = [NSCalendar currentCalendar];
         _minimumDate = [NSDate date];
         _maximumDate = self.minimumDate;
-        _todayTextColor = [UIColor whiteColor];
+        _todayTextColor = [UIColor redColor];
+        _todaySelectedTextColor = [UIColor whiteColor];
         _dayTextColor = [UIColor blackColor];
-        _todayBackgroundColor = [UIColor redColor];
+        _daySelectedTextColor = [UIColor whiteColor];
+        _todaySelectedBackgroundColor = [UIColor redColor];
         _disabledDayTextColor = [UIColor grayColor];
+        _daySelectedBackgroundColor = [UIColor blackColor];
         _circleDiameter = 50;
     }
     return self;
@@ -62,8 +67,8 @@
 }
 
 - (void)reloadData {
-    NSDateComponents *components = [self.calendar components:NSCalendarUnitDay fromDate:self.minimumDate toDate:self.maximumDate options:0];
-    NSInteger daysInBetween = components.day;
+    NSDateComponents *maxAndMinDateDiff = [self.calendar components:NSCalendarUnitDay fromDate:self.minimumDate toDate:self.maximumDate options:0];
+    NSInteger daysInBetween = maxAndMinDateDiff.day;
     NSInteger minDateWeekday = [self.calendar component:NSCalendarUnitWeekday fromDate:self.minimumDate];
     NSInteger maxDateWeekday = [self.calendar component:NSCalendarUnitWeekday fromDate:self.maximumDate];
     NSInteger weeeks = daysInBetween / 7 + 1;
@@ -71,9 +76,12 @@
         weeeks++;
     }
     self.weeks = weeeks;
-    self.minDateWeekday = minDateWeekday;
-    self.maxDateWeekday = maxDateWeekday;
-    self.daysInBetween = _daysInBetween;
+    self.minDateIndex = minDateWeekday-1;
+    self.maxDateIndex = self.minDateIndex+daysInBetween;
+    NSDateComponents *todayAndMinDateDiff = [self.calendar components:NSCalendarUnitDay fromDate:self.minimumDate toDate:[NSDate date] options:0];
+    self.todayIndex = self.minDateIndex+todayAndMinDateDiff.day;
+    
+    self.selectedIndexPath = [NSIndexPath indexPathForItem:self.todayIndex inSection:0];
     [_collectionView reloadData];
 }
 
@@ -85,23 +93,44 @@
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     CYFDayOfMonthCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"dayOfMonthCell" forIndexPath:indexPath];
-    NSInteger daysFromMinDate = indexPath.item-self.minDateWeekday-1;
+    NSInteger daysFromMinDate = indexPath.item-self.minDateIndex;
     NSDate *date = [self.calendar dateByAddingUnit:NSCalendarUnitDay value:daysFromMinDate toDate:self.minimumDate options:0];
     NSInteger day = [self.calendar component:NSCalendarUnitDay fromDate:date];
     cell.dayOfMonthLabel.text = @(day).stringValue;
 
-    if (daysFromMinDate == 0) {
-        cell.circleDiameter = self.circleDiameter;
-        cell.circleBackground.hidden = NO;
-        cell.circleBackground.backgroundColor = self.todayBackgroundColor;
-        cell.dayOfMonthLabel.textColor = self.todayTextColor;
+    if (indexPath.item == self.todayIndex) {
+        if (indexPath.item == self.selectedIndexPath.item) {
+            cell.circleBackground.hidden = NO;
+            cell.circleBackground.backgroundColor = self.todaySelectedBackgroundColor;
+            cell.dayOfMonthLabel.textColor = self.todaySelectedTextColor;
+        }
+        else {
+            cell.circleBackground.hidden = YES;
+            cell.dayOfMonthLabel.textColor = self.todayTextColor;
+        }
     }
     else {
-        cell.circleBackground.hidden = YES;
-        cell.dayOfMonthLabel.textColor = self.dayTextColor;
+        if (indexPath.item == self.selectedIndexPath.item) {
+            cell.circleBackground.hidden = NO;
+            cell.circleBackground.backgroundColor = self.daySelectedBackgroundColor;
+            cell.dayOfMonthLabel.textColor = self.daySelectedTextColor;
+        }
+        else {
+            cell.circleBackground.hidden = YES;
+            cell.dayOfMonthLabel.textColor = self.dayTextColor;
+        }
     }
     
+    cell.circleDiameter = self.circleDiameter;
     return cell;
+}
+
+#pragma mark - UICollectionViewDelegate
+
+- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
+    NSIndexPath *previousSelectedIndexPath = self.selectedIndexPath;
+    self.selectedIndexPath = indexPath;
+    [collectionView reloadItemsAtIndexPaths:@[indexPath, previousSelectedIndexPath]];
 }
 
 #pragma mark - UICollectionViewDelegateFlowLayout

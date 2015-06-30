@@ -13,9 +13,12 @@
 @property (nonatomic, strong) NSDate *minimumDate;
 @property (nonatomic, strong) NSDate *maximumDate;
 @property (nonatomic) CGFloat circleDiameter;
-@property (nonatomic, strong) UIColor *todayBackgroundColor;
+@property (nonatomic, strong) UIColor *todaySelectedBackgroundColor;
+@property (nonatomic, strong) UIColor *daySelectedBackgroundColor;
 @property (nonatomic, strong) UIColor *todayTextColor;
+@property (nonatomic, strong) UIColor *todaySelectedTextColor;
 @property (nonatomic, strong) UIColor *dayTextColor;
+@property (nonatomic, strong) UIColor *daySelectedTextColor;
 @property (nonatomic, strong) UIColor *disabledDayTextColor;
 @property (nonatomic, strong, readonly) UIView *view;
 - (void)reloadData;
