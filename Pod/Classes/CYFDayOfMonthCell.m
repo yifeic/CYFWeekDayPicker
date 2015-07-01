@@ -26,25 +26,25 @@
         _circleDiameter = 50;
         UIView *circleBackground = [[UIView alloc] initWithFrame:CGRectZero];
         circleBackground.translatesAutoresizingMaskIntoConstraints = NO;
-        [self addSubview:circleBackground];
+        [self.contentView addSubview:circleBackground];
         circleBackground.layer.cornerRadius = self.circleDiameter / 2;
         _circleWidthConstraint = [NSLayoutConstraint constraintWithItem:circleBackground attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:self.circleDiameter];
         _circleHeightConstraint = [NSLayoutConstraint constraintWithItem:circleBackground attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:self.circleDiameter];
         
-        [self addConstraints:@[
+        [self.contentView addConstraints:@[
             self.circleWidthConstraint,
             self.circleHeightConstraint,
-            [NSLayoutConstraint constraintWithItem:circleBackground attribute:NSLayoutAttributeCenterX relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeCenterX multiplier:1.0 constant:0],
-            [NSLayoutConstraint constraintWithItem:circleBackground attribute:NSLayoutAttributeCenterY relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeCenterY multiplier:1.0 constant:0]
+            [NSLayoutConstraint constraintWithItem:circleBackground attribute:NSLayoutAttributeCenterX relatedBy:NSLayoutRelationEqual toItem:self.contentView attribute:NSLayoutAttributeCenterX multiplier:1.0 constant:0],
+            [NSLayoutConstraint constraintWithItem:circleBackground attribute:NSLayoutAttributeCenterY relatedBy:NSLayoutRelationEqual toItem:self.contentView attribute:NSLayoutAttributeCenterY multiplier:1.0 constant:0]
         ]];
         self.circleBackground = circleBackground;
         
         UILabel *dayOfMonthLabel = [[UILabel alloc] initWithFrame:CGRectZero];
         dayOfMonthLabel.translatesAutoresizingMaskIntoConstraints = NO;
-        [self addSubview:dayOfMonthLabel];
-        [self addConstraints:@[
-            [NSLayoutConstraint constraintWithItem:dayOfMonthLabel attribute:NSLayoutAttributeCenterX relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeCenterX multiplier:1.0 constant:0],
-            [NSLayoutConstraint constraintWithItem:dayOfMonthLabel attribute:NSLayoutAttributeCenterY relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeCenterY multiplier:1.0 constant:0]
+        [self.contentView addSubview:dayOfMonthLabel];
+        [self.contentView addConstraints:@[
+            [NSLayoutConstraint constraintWithItem:dayOfMonthLabel attribute:NSLayoutAttributeCenterX relatedBy:NSLayoutRelationEqual toItem:self.contentView attribute:NSLayoutAttributeCenterX multiplier:1.0 constant:0],
+            [NSLayoutConstraint constraintWithItem:dayOfMonthLabel attribute:NSLayoutAttributeCenterY relatedBy:NSLayoutRelationEqual toItem:self.contentView attribute:NSLayoutAttributeCenterY multiplier:1.0 constant:0]
         ]];
         self.dayOfMonthLabel = dayOfMonthLabel;
     }
