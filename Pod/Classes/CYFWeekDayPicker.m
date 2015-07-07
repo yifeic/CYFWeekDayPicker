@@ -126,7 +126,7 @@
             }
         }
     }
-    
+    cell.dayOfMonthLabel.font = self.textFont;
     cell.circleDiameter = self.circleDiameter;
     return cell;
 }
