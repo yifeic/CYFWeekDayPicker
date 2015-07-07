@@ -141,6 +141,11 @@
     NSIndexPath *previousSelectedIndexPath = self.selectedIndexPath;
     self.selectedIndexPath = indexPath;
     [collectionView reloadItemsAtIndexPaths:@[indexPath, previousSelectedIndexPath]];
+    
+    if ([self.delegate respondsToSelector:@selector(picker:didSelectDay:)]) {
+        NSDate *selectedDay = [self.calendar dateByAddingUnit:NSCalendarUnitDay value:indexPath.item-self.minDateIndex toDate:self.minimumDate options:0];
+        [self.delegate picker:self didSelectDay:selectedDay];
+    }
 }
 
 #pragma mark - UICollectionViewDelegateFlowLayout

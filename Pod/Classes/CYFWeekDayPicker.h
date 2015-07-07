@@ -7,6 +7,13 @@
 //
 
 #import <UIKit/UIKit.h>
+@class CYFWeekDayPicker;
+
+@protocol CYFWeekDayPickerDelegate <NSObject>
+@optional
+- (void)picker:(CYFWeekDayPicker *)picker didSelectDay:(NSDate *)day;
+
+@end
 
 @interface CYFWeekDayPicker : NSObject
 
@@ -21,6 +28,7 @@
 @property (nonatomic, strong) UIColor *daySelectedTextColor;
 @property (nonatomic, strong) UIColor *disabledDayTextColor;
 @property (nonatomic, strong, readonly) UIView *view;
+@property (nonatomic, weak) id<CYFWeekDayPickerDelegate> delegate;
 - (void)reloadData;
 
 @end

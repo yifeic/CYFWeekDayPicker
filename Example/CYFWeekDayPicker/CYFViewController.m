@@ -9,7 +9,7 @@
 #import "CYFViewController.h"
 #import "CYFWeekDayPicker.h"
 
-@interface CYFViewController ()
+@interface CYFViewController () <CYFWeekDayPickerDelegate>
 @property (nonatomic, strong) CYFWeekDayPicker *picker;
 @end
 
@@ -30,8 +30,12 @@
 
     pickerView.frame = CGRectMake(0, 20, 320, 70);
     [self.view addSubview:pickerView];
-    
+    self.picker.delegate = self;
     [self.picker reloadData];
+}
+
+- (void)picker:(CYFWeekDayPicker *)picker didSelectDay:(NSDate *)day {
+    NSLog(@"select day %@", day);
 }
 
 @end
