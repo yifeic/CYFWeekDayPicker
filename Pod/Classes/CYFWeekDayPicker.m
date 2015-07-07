@@ -138,6 +138,10 @@
         return;
     }
     
+    if (indexPath.item == self.selectedIndexPath.item) {
+        return;
+    }
+    
     NSIndexPath *previousSelectedIndexPath = self.selectedIndexPath;
     self.selectedIndexPath = indexPath;
     [collectionView reloadItemsAtIndexPaths:@[indexPath, previousSelectedIndexPath]];
