@@ -27,7 +27,7 @@
     self.picker.circleDiameter = 30;
     
     UIView *pickerView = self.picker.view;
-    pickerView.backgroundColor = [UIColor grayColor];
+
     pickerView.frame = CGRectMake(0, 20, 320, 70);
     [self.view addSubview:pickerView];
     

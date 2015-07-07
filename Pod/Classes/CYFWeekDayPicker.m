@@ -62,6 +62,7 @@
     collectionView.showsHorizontalScrollIndicator = NO;
     collectionView.dataSource = self;
     collectionView.delegate = self;
+    collectionView.backgroundColor = [UIColor clearColor];
     [collectionView registerClass:[CYFDayOfMonthCell class] forCellWithReuseIdentifier:@"dayOfMonthCell"];
     _collectionView = collectionView;
 }
@@ -117,7 +118,12 @@
         }
         else {
             cell.circleBackground.hidden = YES;
-            cell.dayOfMonthLabel.textColor = self.dayTextColor;
+            if (indexPath.item < self.minDateIndex || indexPath.item > self.maxDateIndex) {
+                cell.dayOfMonthLabel.textColor = self.disabledDayTextColor;
+            }
+            else {
+                cell.dayOfMonthLabel.textColor = self.dayTextColor;
+            }
         }
     }
     
@@ -128,6 +134,10 @@
 #pragma mark - UICollectionViewDelegate
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
+    if (indexPath.item < self.minDateIndex || indexPath.item > self.maxDateIndex) {
+        return;
+    }
+    
     NSIndexPath *previousSelectedIndexPath = self.selectedIndexPath;
     self.selectedIndexPath = indexPath;
     [collectionView reloadItemsAtIndexPaths:@[indexPath, previousSelectedIndexPath]];
