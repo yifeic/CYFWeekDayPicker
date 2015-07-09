@@ -96,7 +96,7 @@
     NSInteger selectedDateWeekday = [self.calendar component:NSCalendarUnitWeekday fromDate:_selectedDay];
     
     [_collectionView reloadData];
-    [_collectionView scrollToItemAtIndexPath:[NSIndexPath indexPathForItem:selectedDayIndex-selectedDateWeekday+1 inSection:0] atScrollPosition:UICollectionViewScrollPositionLeft animated:YES];
+    [_collectionView scrollToItemAtIndexPath:[NSIndexPath indexPathForItem:selectedDayIndex-selectedDateWeekday+1 inSection:0] atScrollPosition:UICollectionViewScrollPositionLeft animated:NO];
 }
 
 #pragma mark - UICollectionViewDataSource
