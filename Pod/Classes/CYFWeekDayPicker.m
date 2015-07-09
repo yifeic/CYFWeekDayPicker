@@ -12,6 +12,7 @@
 @interface CYFWeekDayPicker () <UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout>
 {
     UICollectionView *_collectionView;
+    NSDate *_selectedDay;
 }
 
 @property (nonatomic, strong, readonly) NSCalendar *calendar;
@@ -33,6 +34,7 @@
         _calendar = [NSCalendar currentCalendar];
         _minimumDate = [NSDate date];
         _maximumDate = self.minimumDate;
+        _selectedDay = self.minimumDate;
         _todayTextColor = [UIColor redColor];
         _todaySelectedTextColor = [UIColor whiteColor];
         _dayTextColor = [UIColor blackColor];
@@ -50,6 +52,10 @@
         [self loadView];
     }
     return _collectionView;
+}
+
+- (BOOL)isViewLoaded {
+    return _collectionView != nil;
 }
 
 - (void)loadView {
@@ -82,7 +88,10 @@
     NSDateComponents *todayAndMinDateDiff = [self.calendar components:NSCalendarUnitDay fromDate:self.minimumDate toDate:[NSDate date] options:0];
     self.todayIndex = self.minDateIndex+todayAndMinDateDiff.day;
     
-    self.selectedIndexPath = [NSIndexPath indexPathForItem:self.todayIndex inSection:0];
+    NSDateComponents *selectedDateAndMinDateDiff = [self.calendar components:NSCalendarUnitDay fromDate:self.minimumDate toDate:_selectedDay options:0];
+    NSInteger selectedDayIndex = self.minDateIndex+selectedDateAndMinDateDiff.day;
+    self.selectedIndexPath = [NSIndexPath indexPathForItem:selectedDayIndex inSection:0];
+    
     [_collectionView reloadData];
 }
 
@@ -148,6 +157,7 @@
     
     if ([self.delegate respondsToSelector:@selector(picker:didSelectDay:)]) {
         NSDate *selectedDay = [self.calendar dateByAddingUnit:NSCalendarUnitDay value:indexPath.item-self.minDateIndex toDate:self.minimumDate options:0];
+        self.day = selectedDay;
         [self.delegate picker:self didSelectDay:selectedDay];
     }
 }
@@ -157,6 +167,23 @@
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
     CGFloat size = collectionView.bounds.size.width/7.0;
     return CGSizeMake(size, collectionView.bounds.size.height);
+}
+
+- (void)setDay:(NSDate *)day {
+    if ([self.calendar compareDate:day toDate:self.minimumDate toUnitGranularity:NSCalendarUnitDay] == NSOrderedAscending) {
+        return;
+    }
+    if ([self.calendar compareDate:day toDate:self.maximumDate toUnitGranularity:NSCalendarUnitDay] == NSOrderedDescending) {
+        return;
+    }
+    _selectedDay = day;
+    if (self.isViewLoaded) {
+        [self reloadData];
+    }
+}
+
+- (NSDate *)day {
+    return _selectedDay;
 }
 
 @end

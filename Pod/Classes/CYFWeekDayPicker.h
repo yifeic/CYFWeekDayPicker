@@ -30,6 +30,8 @@
 @property (nonatomic, strong) UIColor *disabledDayTextColor;
 @property (nonatomic, strong, readonly) UIView *view;
 @property (nonatomic, weak) id<CYFWeekDayPickerDelegate> delegate;
+@property (nonatomic, strong) NSDate *day;
+- (BOOL)isViewLoaded;
 - (void)reloadData;
 
 @end
