@@ -23,7 +23,7 @@
     _picker = [[CYFWeekDayPicker alloc] init];
     NSDate *today = [NSDate date];
     self.picker.minimumDate = today;
-    self.picker.maximumDate = [today dateByAddingTimeInterval:60*60*24*2];
+    self.picker.maximumDate = [today dateByAddingTimeInterval:60*60*24*5];
     self.picker.circleDiameter = 30;
     
     UIView *pickerView = self.picker.view;
@@ -40,7 +40,7 @@
 }
 
 - (IBAction)changeDate:(id)sender {
-    self.picker.day = [self.picker.minimumDate dateByAddingTimeInterval:60*60*24*1];
+    self.picker.day = [self.picker.minimumDate dateByAddingTimeInterval:60*60*24*4];
 }
 
 @end

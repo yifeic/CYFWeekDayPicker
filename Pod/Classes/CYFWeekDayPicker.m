@@ -89,10 +89,14 @@
     self.todayIndex = self.minDateIndex+todayAndMinDateDiff.day;
     
     NSDateComponents *selectedDateAndMinDateDiff = [self.calendar components:NSCalendarUnitDay fromDate:self.minimumDate toDate:_selectedDay options:0];
+    
     NSInteger selectedDayIndex = self.minDateIndex+selectedDateAndMinDateDiff.day;
     self.selectedIndexPath = [NSIndexPath indexPathForItem:selectedDayIndex inSection:0];
     
+    NSInteger selectedDateWeekday = [self.calendar component:NSCalendarUnitWeekday fromDate:_selectedDay];
+    
     [_collectionView reloadData];
+    [_collectionView scrollToItemAtIndexPath:[NSIndexPath indexPathForItem:selectedDayIndex-selectedDateWeekday+1 inSection:0] atScrollPosition:UICollectionViewScrollPositionLeft animated:YES];
 }
 
 #pragma mark - UICollectionViewDataSource
