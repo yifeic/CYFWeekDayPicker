@@ -74,23 +74,19 @@
 }
 
 - (void)reloadData {
-    NSDateComponents *maxAndMinDateDiff = [self.calendar components:NSCalendarUnitDay fromDate:self.minimumDate toDate:self.maximumDate options:0];
-    NSInteger daysInBetween = maxAndMinDateDiff.day;
+    NSInteger daysInBetween = [self daysBetweenDate:self.minimumDate andDate:self.maximumDate];
     NSInteger minDateWeekday = [self.calendar component:NSCalendarUnitWeekday fromDate:self.minimumDate];
     NSInteger maxDateWeekday = [self.calendar component:NSCalendarUnitWeekday fromDate:self.maximumDate];
-    NSInteger weeeks = daysInBetween / 7 + 1;
+    NSInteger weeks = daysInBetween / 7 + 1;
     if (maxDateWeekday < minDateWeekday) {
-        weeeks++;
+        weeks++;
     }
-    self.weeks = weeeks;
+    self.weeks = weeks;
     self.minDateIndex = minDateWeekday-1;
     self.maxDateIndex = self.minDateIndex+daysInBetween;
-    NSDateComponents *todayAndMinDateDiff = [self.calendar components:NSCalendarUnitDay fromDate:self.minimumDate toDate:[NSDate date] options:0];
-    self.todayIndex = self.minDateIndex+todayAndMinDateDiff.day;
+    self.todayIndex = self.minDateIndex+[self daysBetweenDate:self.minimumDate andDate:[NSDate date]];
     
-    NSDateComponents *selectedDateAndMinDateDiff = [self.calendar components:NSCalendarUnitDay fromDate:self.minimumDate toDate:_selectedDay options:0];
-    
-    NSInteger selectedDayIndex = self.minDateIndex+selectedDateAndMinDateDiff.day;
+    NSInteger selectedDayIndex = self.minDateIndex+[self daysBetweenDate:self.minimumDate andDate:_selectedDay];
     self.selectedIndexPath = [NSIndexPath indexPathForItem:selectedDayIndex inSection:0];
     
     NSInteger selectedDateWeekday = [self.calendar component:NSCalendarUnitWeekday fromDate:_selectedDay];
@@ -188,6 +184,25 @@
 
 - (NSDate *)day {
     return _selectedDay;
+}
+
+
+- (NSInteger)daysBetweenDate:(NSDate*)fromDateTime andDate:(NSDate*)toDateTime
+{
+    NSDate *fromDate;
+    NSDate *toDate;
+    
+    NSCalendar *calendar = self.calendar;
+    
+    [calendar rangeOfUnit:NSCalendarUnitDay startDate:&fromDate
+                 interval:NULL forDate:fromDateTime];
+    [calendar rangeOfUnit:NSCalendarUnitDay startDate:&toDate
+                 interval:NULL forDate:toDateTime];
+    
+    NSDateComponents *difference = [calendar components:NSCalendarUnitDay
+                                               fromDate:fromDate toDate:toDate options:0];
+    
+    return [difference day];
 }
 
 @end

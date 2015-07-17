@@ -40,7 +40,7 @@
 }
 
 - (IBAction)changeDate:(id)sender {
-    self.picker.day = [self.picker.minimumDate dateByAddingTimeInterval:60*60*24*4];
+    self.picker.day = [self.picker.minimumDate dateByAddingTimeInterval:60*60*24*4-60*60*2];
 }
 
 @end
